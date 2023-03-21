@@ -29,10 +29,10 @@ manager = ConnectionManager()
 async def websocket_endpoint(websocket: WebSocket, uuid: str):
     await manager.connect(websocket)
     try:
-        await manager.broadcast(websocket, {"id": uuid, "dt": str(datetime.datetime.now())})
+        await manager.broadcast(websocket, {"id": uuid, "dt": str(datetime.datetime.now()), "tp": "cn"})
         while True:
             data = await websocket.receive_json()
-            await manager.broadcast(websocket, {"id": uuid, "dt": str(datetime.datetime.now()), "data": data})
+            await manager.broadcast(websocket, {"id": uuid, "dt": str(datetime.datetime.now()), "tp": "bc", "data": data})
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast(websocket, {"test": f"Client #{websocket} disconnected"})   
+        await manager.broadcast(websocket, {"id": uuid, "dt": str(datetime.datetime.now()), "tp": "ex"})   
