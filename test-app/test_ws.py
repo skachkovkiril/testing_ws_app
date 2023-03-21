@@ -2,6 +2,7 @@ from threading import Thread
 import websocket
 from uuid import uuid4
 import time
+import datetime
 
 
 class WSClient(Thread):
@@ -19,10 +20,10 @@ class WSClient(Thread):
             print(error)
 
         def on_close(ws, close_status_code, close_msg):
-            print(f"Client #{self.uuid_client} - disconnected")
+            print(f"Client #{self.uuid_client} - disconnection completed at {datetime.datetime.now()}")
 
         def on_open(ws):
-            print(f"Client #{self.uuid_client} - connected")
+            print(f"Client #{self.uuid_client} - connection completed at {datetime.datetime.now()}")
         
         websocket.enableTrace(False)
         self.ws = websocket.WebSocketApp(f"{self.url}{self.uuid_client}",
@@ -39,19 +40,21 @@ class Testing:
     
     def start(self):
         for client in self.clients:
+            print(f"Client #{client.uuid_client} - connection start at {datetime.datetime.now()}")
             client.start()
-            time.sleep(0.1)
+            time.sleep(0.01)
     
     def stop(self):
         for client in self.clients:
+            print(f"Client #{client.uuid_client} - disconnection start at {datetime.datetime.now()}")
             client.ws.close()
-            time.sleep(0.1)
+            time.sleep(0.01)
     
-    def stop_by_symbol(self, symbol="0"):
+    def stop_by_symbol(self, symbol="exit"):
         while str(input()) != symbol:
             continue
         self.stop()
 
-    def start_with_stop_by_symbol(self, symbol="0"):
+    def start_with_stop_by_symbol(self, symbol="exit"):
         self.start()
-        self.stop_by_symbol(symbol=symbol)
+        self.stop_by_symbol(symbol)
