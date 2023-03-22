@@ -2,7 +2,8 @@ from threading import Thread
 import websocket
 from uuid import uuid4
 import time
-import datetime
+from datetime import datetime
+from statistics import mean
 
 
 class WSClient(Thread):
@@ -10,6 +11,10 @@ class WSClient(Thread):
         super().__init__()
         self.uuid_client = uuid4()
         self.url = url
+        self.start_open = None
+        self.start_close = None
+        self.time_open = None
+        self.time_close = None
         
     
     def run(self):
@@ -20,10 +25,12 @@ class WSClient(Thread):
             print(error)
 
         def on_close(ws, close_status_code, close_msg):
-            print(f"Client #{self.uuid_client} - disconnection completed at {datetime.datetime.now()}")
+            self.time_close = datetime.now() - self.start_close
+            print(f"Client #{self.uuid_client} - disconnection completed at {datetime.now()} ({self.time_close})")
 
         def on_open(ws):
-            print(f"Client #{self.uuid_client} - connection completed at {datetime.datetime.now()}")
+            self.time_open = datetime.now() - self.start_open
+            print(f"Client #{self.uuid_client} - connection completed at {datetime.now()} ({self.time_open})")
         
         websocket.enableTrace(False)
         self.ws = websocket.WebSocketApp(f"{self.url}{self.uuid_client}",
@@ -40,13 +47,15 @@ class Testing:
     
     def start(self):
         for client in self.clients:
-            print(f"Client #{client.uuid_client} - connection start at {datetime.datetime.now()}")
+            client.start_open = datetime.now()
+            print(f"Client #{client.uuid_client} - connection start at {client.start_open}")
             client.start()
             time.sleep(0.01)
     
     def stop(self):
         for client in self.clients:
-            print(f"Client #{client.uuid_client} - disconnection start at {datetime.datetime.now()}")
+            client.start_close = datetime.now()
+            print(f"Client #{client.uuid_client} - disconnection start at {client.start_close}")
             client.ws.close()
             time.sleep(0.01)
     
@@ -58,3 +67,9 @@ class Testing:
     def start_with_stop_by_symbol(self, symbol="exit"):
         self.start()
         self.stop_by_symbol(symbol)
+    
+    def get_average_connection_speed(self):
+        print(f"Average connection time: {round(mean([i.time_open.total_seconds() for i in self.clients]), 4)} sec.")
+    
+    def get_average_disconnection_speed(self):
+        print(f"Average disconnection time: {round(mean([i.time_close.total_seconds() for i in self.clients]), 4)} sec.")
