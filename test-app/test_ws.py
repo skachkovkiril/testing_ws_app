@@ -25,6 +25,12 @@ class WSClient(Thread):
     def run(self):
         def on_message(ws, message):
             print(coloring(f"Client #{self.uuid_client} - {message}", b="113"))
+            data = json.loads(message)
+            match data["payload"]["tp"]:
+                case "bc":
+                    self.send_message("rc")
+                case "rs":
+                    print(coloring(f"Client #{self.uuid_client} - read the message (#{data['id']}) at {datetime.now()}", r="38", b="68"))
 
         def on_error(ws, error):
             print(error)
@@ -45,8 +51,9 @@ class WSClient(Thread):
                                          on_close=on_close)
         self.ws.run_forever()
     
-    def send_message(self):
-        self.ws.send(json.dumps({"test": str(self.uuid_client)}))
+    def send_message(self, tp):
+        print(f"Client #{self.uuid_client} - send message in {datetime.now()} (message: {tp})")
+        self.ws.send(json.dumps({"tp": tp, "dt": str(datetime.now())}))
 
 
 class Testing:
