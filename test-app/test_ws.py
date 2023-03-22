@@ -4,6 +4,11 @@ from uuid import uuid4
 import time
 from datetime import datetime
 from statistics import mean
+import json
+
+
+def coloring(text, r="38", g="05", b="222"):
+    return f"\33[{r};{g};{b}m{text}\033[0;0m"
 
 
 class WSClient(Thread):
@@ -19,7 +24,7 @@ class WSClient(Thread):
     
     def run(self):
         def on_message(ws, message):
-            print(f"Client #{self.uuid_client} - {message}")
+            print(coloring(f"Client #{self.uuid_client} - {message}", b="113"))
 
         def on_error(ws, error):
             print(error)
@@ -39,6 +44,9 @@ class WSClient(Thread):
                                          on_error=on_error,
                                          on_close=on_close)
         self.ws.run_forever()
+    
+    def send_message(self):
+        self.ws.send(json.dumps({"test": str(self.uuid_client)}))
 
 
 class Testing:
@@ -69,7 +77,7 @@ class Testing:
         self.stop_by_symbol(symbol)
     
     def get_average_connection_speed(self):
-        print(f"Average connection time: {round(mean([i.time_open.total_seconds() for i in self.clients]), 4)} sec.")
+        print(coloring(f"\nAverage connection time: {round(mean([i.time_open.total_seconds() for i in self.clients]), 4)} sec.\n"))
     
     def get_average_disconnection_speed(self):
-        print(f"Average disconnection time: {round(mean([i.time_close.total_seconds() for i in self.clients]), 4)} sec.")
+        print(coloring(f"\nAverage disconnection time: {round(mean([i.time_close.total_seconds() for i in self.clients]), 4)} sec.\n"))
