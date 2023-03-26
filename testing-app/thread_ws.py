@@ -1,7 +1,7 @@
 from threading import Thread
 import websocket
 from uuid import uuid4
-import time
+from datetime import datetime
 import json
 
 from utils import coloring
@@ -14,11 +14,13 @@ class Client(Thread):
         self.url = url
         self.is_connect = False
         self.connection_time = None
+        self.send_recv_time = None
         self.disconnection_time = None
+        self.fm_is_received = False
     
     def run(self):
         def on_message(ws, message):
-            coloring(f"Client #{self.uuid_client} - {message}", b="68")
+            self.fm_is_received = True
 
         def on_error(ws, error):
             coloring(error, b="196")
@@ -36,9 +38,14 @@ class Client(Thread):
                                          on_error=on_error,
                                          on_close=on_close)
         self.ws.run_forever()
-    
+
     def iteration(self):
-        print(f"Client #{self.uuid_client} - send first message")
+        coloring(f"Client #{self.uuid_client} - send first message", b="68")
+        self.ws.send(json.dumps({
+            "id": str(self.uuid_client),
+            "dt": str(datetime.now()),
+            "tp": "fm"
+        }))
 
     def stop(self):
         self.ws.close()
