@@ -17,17 +17,13 @@ class ConnectionManager:
         self.active_connections.remove(websocket)
 
     async def broadcast(self, websocket: WebSocket, data: dict):
-        # Необходимо в зависимости от типа сообщения предусмотреть кому отправлять
-        # fm - first message
-        # bc - broadcast
-        # rc - response client
-        # rs - response server
-        # st - status transfer
         match data["payload"]["tp"]:
             case "rc":
                 data["payload"]["tp"] = "rs"
+                data["payload"]["dt"]["rs"] = str(datetime.now())
             case "fm":
                 data["payload"]["tp"] = "bc"
+                data["payload"]["dt"]["bc"] = str(datetime.now())
         for connection in self.active_connections:
             if not websocket is connection:
                 await connection.send_json(data=data)
@@ -43,7 +39,7 @@ async def websocket_endpoint(websocket: WebSocket, uuid: str):
         await manager.broadcast(websocket, {"id": uuid, "payload": {"tp": "cn"}})
         while True:
             data = await websocket.receive_json()
-            await manager.broadcast(websocket, {"id": uuid, "payload": data})
+            await manager.broadcast(websocket, {"id": uuid, "payload": data["payload"]})
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(websocket, {"id": uuid, "payload": {"tp": "ex"}})   
