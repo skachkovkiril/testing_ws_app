@@ -39,6 +39,11 @@ CTRL+C
 exit
 cd ..
 ```
+## Express.js (express-ws)
+cd js-express-app
+node index.js
+CTRL+C
+cd ..
 
 # Testing application
 To run a Testing application:
