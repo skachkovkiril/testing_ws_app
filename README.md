@@ -29,6 +29,16 @@ CTRL+C
 exit
 cd ..
 ```
+## Blacksheep
+To run a WebSocket application on Blacksheep:
+```
+cd python-blacksheep-app
+pipenv shell
+uvicorn main:app --reload
+CTRL+C
+exit
+cd ..
+```
 
 # Testing application
 To run a Testing application:
