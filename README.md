@@ -19,6 +19,16 @@ CTRL+C
 exit
 cd ..
 ```
+## Starlette
+To run a WebSocket application on Starlette:
+```
+cd python-starlette-app
+pipenv shell
+uvicorn main:app --reload
+CTRL+C
+exit
+cd ..
+```
 
 # Testing application
 To run a Testing application:
