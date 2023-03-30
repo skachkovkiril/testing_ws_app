@@ -46,6 +46,16 @@ node index.js
 CTRL+C
 cd ..
 ```
+## Tornado
+To run a WebSocket application on Tornado:
+```
+cd python-tornado-app
+pipenv shell
+python server.py
+CTRL+C
+exit
+cd ..
+```
 
 # Testing application
 To run a Testing application:
