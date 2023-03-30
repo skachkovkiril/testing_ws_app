@@ -63,6 +63,17 @@ node index.js
 CTRL+C
 cd ..
 ```
+## Asyncio/websockets
+To run a WebSocket application on Asyncio:
+```
+cd python-asyncio-app
+pipenv shell
+python main.py
+CTRL+C
+exit
+cd ..
+```
+
 # Testing application
 To run a Testing application:
 ```
