@@ -56,7 +56,13 @@ CTRL+C
 exit
 cd ..
 ```
-
+## Node.js WebSocket library (ws, http, url)
+```
+cd js-websocket-app
+node index.js
+CTRL+C
+cd ..
+```
 # Testing application
 To run a Testing application:
 ```
