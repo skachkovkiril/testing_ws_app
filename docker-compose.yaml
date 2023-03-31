@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  python-fastapi-app:
+    container_name: python-fastapi-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-fastapi-app.Dockerfile
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    restart: always
+    ports:
+      - 8001:8000
+    volumes:
+      - ./python-fastapi-app:/code
+  python-sanic-app:
+    container_name: python-sanic-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-sanic-app.Dockerfile
+    restart: always
+    ports:
+      - 8002:8000
+    volumes:
+      - ./python-sanic-app:/code
