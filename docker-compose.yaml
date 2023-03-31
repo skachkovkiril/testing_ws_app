@@ -21,3 +21,14 @@ services:
       - 8002:8000
     volumes:
       - ./python-sanic-app:/code
+  python-starlette-app:
+    container_name: python-starlette-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-starlette-app.Dockerfile
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    restart: always
+    ports:
+      - 8003:8000
+    volumes:
+      - ./python-starlette-app:/code
