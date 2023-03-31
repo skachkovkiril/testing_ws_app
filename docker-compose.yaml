@@ -43,3 +43,13 @@ services:
       - 8004:8000
     volumes:
       - ./python-blacksheep-app:/code
+  python-tornado-app:
+    container_name: python-tornado-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-tornado-app.Dockerfile
+    restart: always
+    ports:
+      - 8005:8000
+    volumes:
+      - ./python-tornado-app:/code
