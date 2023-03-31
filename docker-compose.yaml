@@ -63,3 +63,13 @@ services:
       - 8006:8000
     volumes:
       - ./python-asyncio-app:/code
+  js-express-app:
+    container_name: js-express-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/js-express-app.Dockerfile
+    restart: always
+    ports:
+      - 8007:8000
+    volumes:
+      - ./js-express-app:/app
