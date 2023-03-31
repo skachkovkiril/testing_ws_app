@@ -32,3 +32,14 @@ services:
       - 8003:8000
     volumes:
       - ./python-starlette-app:/code
+  python-blacksheep-app:
+    container_name: python-blacksheep-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-blacksheep-app.Dockerfile
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    restart: always
+    ports:
+      - 8004:8000
+    volumes:
+      - ./python-blacksheep-app:/code
