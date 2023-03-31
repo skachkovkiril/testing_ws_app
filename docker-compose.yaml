@@ -53,3 +53,13 @@ services:
       - 8005:8000
     volumes:
       - ./python-tornado-app:/code
+  python-asyncio-app:
+    container_name: python-asyncio-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/python-asyncio-app.Dockerfile
+    restart: always
+    ports:
+      - 8006:8000
+    volumes:
+      - ./python-asyncio-app:/code
