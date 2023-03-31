@@ -73,3 +73,13 @@ services:
       - 8007:8000
     volumes:
       - ./js-express-app:/app
+  js-websocket-app:
+    container_name: js-websocket-app
+    build: 
+      context: .
+      dockerfile: dockerfiles/js-websocket-app.Dockerfile
+    restart: always
+    ports:
+      - 8008:8000
+    volumes:
+      - ./js-websocket-app:/app
