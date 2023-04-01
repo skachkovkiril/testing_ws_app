@@ -5,9 +5,19 @@ from statistics import mean
 from utils import color, coloring
 
 
+class Result:
+    def __init__(self, avg_connection_time, avg_send_recv_time, avg_disconnection_time):
+        self.avg_connection_time = avg_connection_time
+        self.avg_send_recv_time = avg_send_recv_time
+        self.avg_disconnection_time = avg_disconnection_time
+
+    def __str__(self):
+        return f"{self.avg_connection_time}\t{self.avg_send_recv_time}\t{self.avg_disconnection_time}"
+
+
 class Testing:
-    def __init__(self, count_clients):
-        self.url = "ws://127.0.0.1:8000/ws/"
+    def __init__(self, count_clients, url = "ws://127.0.0.1:8000/ws/"):
+        self.url = url
         self.clients = [Client(self.url) for _ in range(count_clients)]
         self.avg_connection_time = None
         self.avg_send_recv_time = None
@@ -57,6 +67,12 @@ class Testing:
             client.disconnection_time = end
             coloring(f"Client #{client.uuid_client} - disconnection completed", b="65")
         self.avg_disconnection_time = round(mean([i.disconnection_time for i in self.clients]), 6)
+
+    def run(self) -> Result:
+        self.start()
+        self.experiment()
+        self.stop()
+        return Result(self.avg_connection_time, self.avg_send_recv_time, self.avg_disconnection_time)
 
     @color()
     def get_average_connection_speed(self):
