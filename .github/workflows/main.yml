@@ -1,0 +1,23 @@
+name: CI-CD WS-APP
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.VPS_SSH_HOST }}
+                  username: ${{ secrets.VPS_SSH_USERNAME }}
+                  port: ${{ secrets.VPS_SSH_PORT }}
+                  passphrase: ${{ secrets.SSH_PASSPHRASE }}
+                  script: |
+                      cd ${{ secrets.PROJECT_PATH }}
+                      git pull origin main
+                      make down
+                      make build
+                      echo "Deleting old image(s)..."
+                      docker image prune -a -f
