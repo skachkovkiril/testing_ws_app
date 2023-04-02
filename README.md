@@ -1,3 +1,22 @@
+# Docker compose
+## Work all applications
+Run applications
+```
+make build
+
+or
+
+docker compose up --build -d --remove-orphans
+```
+Stop applications
+```
+make down
+
+or
+
+docker compose down
+```
+
 # WebSocket Applications
 ## FastAPI
 To run a WebSocket application on FastAPI:
