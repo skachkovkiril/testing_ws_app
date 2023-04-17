@@ -1,5 +1,3 @@
-import json
-
 import tornado.web
 import tornado.ioloop
 import tornado.websocket
