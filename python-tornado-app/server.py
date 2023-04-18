@@ -12,8 +12,9 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             value.ws_connection.write_message(message)
 
     def on_close(self, message=None):
-        for key, _ in enumerate(self.application.webSocketsPool):
-            del self.application.webSocketsPool[key]
+        for key, value in enumerate(self.application.webSocketsPool):
+            if value == self:
+                del self.application.webSocketsPool[key]
 
 class Application(tornado.web.Application):
     def __init__(self):
