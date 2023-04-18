@@ -68,7 +68,6 @@ services:
     build: 
       context: .
       dockerfile: dockerfiles/js-express-app.Dockerfile
-    command: bash -c "node index.js"
     restart: always
     ports:
       - 8007:8000
@@ -79,7 +78,6 @@ services:
     build: 
       context: .
       dockerfile: dockerfiles/js-websocket-app.Dockerfile
-    command: bash -c "node index.js"
     restart: always
     ports:
       - 8008:8000
