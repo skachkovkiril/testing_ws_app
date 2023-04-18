@@ -68,7 +68,7 @@ services:
     build: 
       context: .
       dockerfile: dockerfiles/js-express-app.Dockerfile
-    # restart: always
+    restart: always
     ports:
       - 8007:8000
     volumes:
@@ -78,7 +78,7 @@ services:
     build: 
       context: .
       dockerfile: dockerfiles/js-websocket-app.Dockerfile
-    # restart: always
+    restart: always
     ports:
       - 8008:8000
     volumes:
