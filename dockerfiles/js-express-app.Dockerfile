@@ -8,6 +8,4 @@ RUN npm install
 
 COPY js-express-app .
 
-EXPOSE 8000
-
 CMD ["node", "index.js"]
