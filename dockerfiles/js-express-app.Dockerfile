@@ -8,4 +8,4 @@ RUN npm install
 
 COPY js-express-app .
 
-CMD ["node", "app/index.js"]
+CMD ["node", "index.js"]
