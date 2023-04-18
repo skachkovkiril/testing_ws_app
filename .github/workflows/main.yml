@@ -1,7 +1,7 @@
 name: CI-CD WS-APP
 
 on:
-    push:
+    workflow_dispatch:
 
 jobs:
     deploy:
