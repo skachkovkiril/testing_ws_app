@@ -8,4 +8,6 @@ RUN npm install
 
 COPY js-websocket-app .
 
+EXPOSE 8000
+
 CMD ["node", "index.js"]
