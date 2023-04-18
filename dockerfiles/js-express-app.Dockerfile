@@ -1,11 +1,9 @@
-FROM node:18-alpine
+FROM node:12-alpine
 
-WORKDIR /app/
+WORKDIR /usr/src/app
 
-COPY js-express-app/package*.json /app/
+COPY js-express-app/package*.json ./
 
 RUN npm install
 
-COPY js-express-app /app/
-
-CMD ["node", "index.js"]
+COPY js-express-app .

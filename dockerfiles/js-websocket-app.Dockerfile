@@ -1,11 +1,9 @@
-FROM node:18-alpine
+FROM node:12-alpine
 
-WORKDIR /app/
+WORKDIR /usr/src/app
 
-COPY js-websocket-app/package*.json /app/
+COPY js-websocket-app/package*.json ./
 
 RUN npm install
 
-COPY js-websocket-app /app/
-
-CMD ["node", "index.js"]
+COPY js-websocket-app .
