@@ -8,4 +8,4 @@ RUN npm install
 
 COPY js-websocket-app .
 
-CMD ["node", "index.js"]
+CMD ["node", "app/index.js"]
