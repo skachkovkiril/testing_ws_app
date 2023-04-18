@@ -2,7 +2,7 @@ FROM node:latest
 
 WORKDIR /app/
 
-COPY js-websocket-app/package*.json ./
+COPY js-websocket-app/package.json ./
 
 RUN npm install
 
